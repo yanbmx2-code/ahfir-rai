@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أحفير: مهد فن الراي بالمغرب | Ahfir Rai Heritage</title>
+<style>
+:root{--bg:#0c0a09;--card:#1c1917;--line:#78350f;--txt:#f5f5f4;--mut:#a8a29e;--acc:#f59e0b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:"Amiri","Noto Naskh Arabic",Tahoma,serif;line-height:1.9}
+header{padding:28px 16px 12px;text-align:center;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:2rem;color:var(--acc)}
+header p{margin:6px 0 0;color:var(--mut);font-size:1rem}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:14px 10px}
+nav button{background:#292524;color:var(--txt);border:1px solid #44403c;border-radius:999px;padding:8px 18px;font:inherit;cursor:pointer}
+nav button.on{background:var(--acc);color:#0c0a09;border-color:var(--acc);font-weight:bold}
+main{max-width:900px;margin:0 auto;padding:10px 16px 90px}
+.hero{background:linear-gradient(135deg,#291c0a,#1c1917);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px}
+.hero h2{margin:0 0 8px;font-size:1.8rem}.hero h2 span{color:var(--acc)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid #44403c;border-radius:14px;padding:16px}
+.card h3{margin:0 0 6px;color:var(--acc)}
+.card p{margin:0 0 12px;color:#d6d3d1}
+.play{background:var(--acc);color:#0c0a09;border:0;border-radius:999px;padding:6px 16px;font:inherit;font-weight:bold;cursor:pointer}
+.play.on{background:#dc2626;color:#fff}
+#msg{position:fixed;bottom:12px;left:12px;right:12px;max-width:520px;margin:auto;background:#450a0a;border:1px solid #ef4444;color:#fecaca;padding:10px 14px;border-radius:12px;display:none;font-size:.9rem}
+footer{text-align:center;color:var(--mut);font-size:.85rem;padding:20px 16px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <h1>أحفير: مهد فن الراي بالمغرب</h1>
+  <p>الشرارة الأولى لعبور ألحان الراي الأصيل من بوكان والغرب الجزائري إلى المغرب</p>
+</header>
+<nav id="tabs"></nav>
+<main id="view"></main>
+<div id="msg"></div>
+<footer>تحية تقدير لذاكرة أهالي أحفير وبوكان، ولأرواح رواد الراي الذين جسدوا الأخوة والوفاء عبر نغمات واد كيس الخالدة.<br>Ahfir Rai Heritage</footer>
+
+<script>
+// ===== المحتوى: عدّلوا النصوص هنا (Modifiez les textes ici) =====
+const OVERVIEW = "شكّلت مدينة أحفير المهد الأول والشرارة الأولى لانتشار فن الراي في المغرب، حيث كانت أول مدينة مغربية تُغنّى فيها ألحان الراي الجزائري الحقيقي القادم من الغرب الجزائري عبر مدينة بوكان المحادية. على ضفاف واد كيس، التقت العائلات والموسيقيون في الأعراس المشتركة، وعبرت أشرطة الكاسيت المسجلة في وهران ومغنية وسيدي بلعباس إلى أسواق أحفير ومقاهيها، لتوقظ شغف شباب الشرق المغربي، وتمهد لظهور رواد الراي المغربي أمثال الشاب ميمون الوجدي وكمال الوجدي، قبل أن يجتاح هذا النغم مسارح العالم.";
+
+const DATA = {
+  story: [
+    {t:"المهد الأول", d:"كانت أحفير أول مدينة مغربية تُغنّى فيها ألحان الراي الجزائري الحقيقي القادم من الغرب الجزائري عبر مدينة بوكان المحادية."},
+    {t:"أعراس واد كيس", d:"على ضفاف واد كيس، التقت العائلات والموسيقيون في الأعراس المشتركة، فصار الغناء جسراً بين الضفتين."},
+    {t:"الشرارة الأولى", d:"من هذا اللقاء انطلقت الشرارة الأولى التي مهّدت لظهور رواد الراي المغربي، قبل أن يجتاح هذا النغم مسارح العالم."}
+  ],
+  cassette: [
+    {t:"كاسيت وهران", d:"أشرطة مسجلة في وهران عبرت الحدود إلى أسواق أحفير ومقاهيها."},
+    {t:"كاسيت مغنية", d:"أشرطة مغنية، القريبة من الحدود، كانت من أسرع الأشرطة وصولاً إلى شباب الشرق المغربي."},
+    {t:"كاسيت سيدي بلعباس", d:"أشرطة سيدي بلعباس أيقظت شغف الشباب بهذا الفن الجديد عليهم."}
+  ],
+  map: [
+    {t:"بوكان", d:"المدينة المحادية التي عبرت منها ألحان الراي الأصيل إلى أحفير."},
+    {t:"واد كيس", d:"الواد الحدودي الذي جمع العائلات والموسيقيين في الأعراس المشتركة."},
+    {t:"أحفير", d:"المهد الأول والشرارة الأولى لفن الراي في المغرب."},
+    {t:"وهران ومغنية وسيدي بلعباس", d:"مدن الغرب الجزائري التي سُجلت فيها الأشرطة التي وصلت إلى أحفير."}
+  ],
+  pioneers: [
+    {t:"الشاب ميمون الوجدي", d:"من رواد الراي المغربي الذين مهّد لظهورهم هذا المسار الموسيقي المشترك."},
+    {t:"كمال الوجدي", d:"من رواد الراي المغربي، من جيل نقل نغمة الراي من الحدود إلى المسرح."}
+  ]
+};
+const TABS = [["story","القصة والتاريخ"],["cassette","كاسيت الراي"],["map","بوكان وواد كيس"],["pioneers","الرواد"]];
+// =================================================================
+
+const $ = s => document.querySelector(s);
+let tab = "story", playingId = null;
+
+function msg(t){const m=$("#msg");m.textContent=t;m.style.display="block";clearTimeout(msg.h);msg.h=setTimeout(()=>m.style.display="none",5000)}
+
+function pickVoice(){
+  const v = speechSynthesis.getVoices();
+  return v.find(x=>x.lang.toLowerCase().startsWith("ar")) || null;
+}
+
+function speak(text, id){
+  if(!("speechSynthesis" in window)){msg("المتصفح لا يدعم القراءة الصوتية.");return}
+  const wasSame = playingId === id;
+  speechSynthesis.cancel(); playingId = null;
+  if(wasSame){render();return}
+  const voice = pickVoice();
+  if(!voice) msg("لا يوجد صوت عربي على هذا الجهاز. ثبّت صوتاً عربياً في إعدادات النظام (Paramètres > Voix).");
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = voice ? voice.lang : "ar-SA"; if(voice) u.voice = voice;
+  u.rate = .92;
+  u.onend = u.onerror = () => {playingId = null; render()};
+  playingId = id; render();
+  speechSynthesis.speak(u);
+}
+
+function card(item, i){
+  const id = tab + i;
+  return `<div class="card"><h3>${item.t}</h3><p>${item.d}</p>
+    <button class="play ${playingId===id?"on":""}" data-id="${id}" data-text="${(item.t+". "+item.d).replace(/"/g,"&quot;")}">${playingId===id?"■ إيقاف":"▶ استمع"}</button></div>`;
+}
+
+function render(){
+  $("#tabs").innerHTML = TABS.map(([k,l])=>`<button class="${k===tab?"on":""}" data-tab="${k}">${l}</button>`).join("");
+  const hero = tab==="story" ? `<div class="hero"><h2>أحفير: المهد الأول <span>والشرارة الأولى</span> لفن الراي في المغرب</h2>
+    <button class="play ${playingId==="overview"?"on":""}" data-id="overview" data-text="${OVERVIEW}">${playingId==="overview"?"■ إيقاف":"▶ استمع إلى القصة كاملة"}</button></div>` : "";
+  $("#view").innerHTML = hero + `<div class="grid">${DATA[tab].map(card).join("")}</div>`;
+}
+
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-tab]"); if(t){tab=t.dataset.tab;speechSynthesis.cancel();playingId=null;render();return}
+  const p = e.target.closest(".play"); if(p) speak(p.dataset.text, p.dataset.id);
+});
+speechSynthesis.onvoiceschanged = ()=>{};
+render();
+</script>
+</body>
+</html>
